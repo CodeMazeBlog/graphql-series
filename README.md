@@ -1,2 +1,2 @@
-# graphql-series
-This repository contains the code for the GraphQL series on Code Maze
+# Getting Started with GraphQL in ASP.NET Core
+## https://code-maze.com/getting-started-graphql-asp-net-core

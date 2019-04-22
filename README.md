@@ -1,2 +1,2 @@
-# Getting Started with GraphQL in ASP.NET Core
-## https://code-maze.com/getting-started-graphql-asp-net-core
+# Advanced GraphQL Queries, Error Handling, Data Loader
+##  https://code-maze.com/advanced-graphql-queries/

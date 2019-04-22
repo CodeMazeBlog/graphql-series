@@ -36,7 +36,8 @@ namespace GraphQLDotNetCore
             services.AddScoped<AppSchema>();
 
             services.AddGraphQL(o => { o.ExposeExceptions = false; })
-                .AddGraphTypes(ServiceLifetime.Scoped);
+                .AddGraphTypes(ServiceLifetime.Scoped)
+                .AddDataLoader();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);

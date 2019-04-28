@@ -10,6 +10,7 @@ namespace GraphQLDotNetCore.GraphQL.GraphQLSchema
             :base(resolver)
         {
             Query = resolver.Resolve<AppQuery>();
+            Mutation = resolver.Resolve<AppMutation>();
         }
     }
 }

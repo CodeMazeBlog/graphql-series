@@ -1,2 +1,2 @@
-# Consuming GraphQL API With ASP.NET Core Application
-##  https://code-maze.com/consume-graphql-api-with-asp-net-core
+# Consuming a GraphQL API With Angular
+## https://code-maze.com/consuming-graphql-api-angular/ 

@@ -1,4 +1,6 @@
-﻿using GraphQL.Common.Request;
+﻿using GraphQL;
+using GraphQL.Client.Abstractions;
+using GraphQLClient.ResponsTypes;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,9 +11,9 @@ namespace GraphQLClient
 {
     public class OwnerConsumer
     {
-        private readonly GraphQL.Client.GraphQLClient _client;
+        private readonly IGraphQLClient _client;
 
-        public OwnerConsumer(GraphQL.Client.GraphQLClient client)
+        public OwnerConsumer(IGraphQLClient client)
         {
             _client = client;
         }
@@ -32,11 +34,11 @@ namespace GraphQLClient
                               description
                             }
                           }
-                        }"
+                        }",
             };
 
-            var response = await _client.PostAsync(query);
-            return response.GetDataFieldAs<List<Owner>>("owners");
+            var response = await _client.SendQueryAsync<ResponseOwnerCollectionType>(query);
+            return response.Data.Owners;
 
         }
 
@@ -60,8 +62,8 @@ namespace GraphQLClient
                 Variables = new { ownerID = id }
             };
 
-            var response = await _client.PostAsync(query);
-            return response.GetDataFieldAs<Owner>("owner");
+            var response = await _client.SendQueryAsync<ResponseOwnerType>(query);
+            return response.Data.Owner;
         }
 
         public async Task<Owner> CreateOwner(OwnerInput ownerToCreate)
@@ -69,18 +71,18 @@ namespace GraphQLClient
             var query = new GraphQLRequest
             {
                 Query = @"
-                        mutation($owner: ownerInput!){
-                          createOwner(owner: $owner){
-                            id,
-                            name,
-                            address
-                          }
-                        }",
-                Variables = new {owner = ownerToCreate}
+                            mutation($owner: ownerInput!){
+                              createOwner(owner: $owner){
+                                id,
+                                name,
+                                address
+                              }
+                            }",
+                Variables = new { owner = ownerToCreate }
             };
 
-            var response = await _client.PostAsync(query);
-            return response.GetDataFieldAs<Owner>("createOwner");
+            var response = await _client.SendMutationAsync<ResponseOwnerType>(query);
+            return response.Data.Owner;
         }
 
         public async Task<Owner> UpdateOwner(Guid id, OwnerInput ownerToUpdate)
@@ -88,33 +90,33 @@ namespace GraphQLClient
             var query = new GraphQLRequest
             {
                 Query = @"
-                        mutation($owner: ownerInput!, $ownerId: ID!){
-                          updateOwner(owner: $owner, ownerId: $ownerId){
-                            id,
-                            name,
-                            address
-                          }
-                        }",
+                            mutation($owner: ownerInput!, $ownerId: ID!){
+                              updateOwner(owner: $owner, ownerId: $ownerId){
+                                id,
+                                name,
+                                address
+                              }
+                            }",
                 Variables = new { owner = ownerToUpdate, ownerId = id }
             };
 
-            var response = await _client.PostAsync(query);
-            return response.GetDataFieldAs<Owner>("updateOwner");
+            var response = await _client.SendMutationAsync<ResponseOwnerType>(query);
+            return response.Data.Owner;
         }
 
-        public async Task<string> DeleteOwner(Guid id)
+        public async Task<Owner> DeleteOwner(Guid id)
         {
             var query = new GraphQLRequest
             {
                 Query = @"
-                       mutation($ownerId: ID!){
-                          deleteOwner(ownerId: $ownerId)
-                        }",
+                           mutation($ownerId: ID!){
+                              deleteOwner(ownerId: $ownerId)
+                            }",
                 Variables = new { ownerId = id }
             };
 
-            var response = await _client.PostAsync(query);
-            return response.Data.deleteOwner;
+            var response = await _client.SendMutationAsync<ResponseOwnerType>(query);
+            return response.Data.Owner;
         }
     }
 }

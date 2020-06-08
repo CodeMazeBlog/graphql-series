@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GraphQLClient.Controllers
@@ -17,7 +18,6 @@ namespace GraphQLClient.Controllers
             _consumer = consumer;
         }
 
-        [HttpGet]
         public async Task<IActionResult> Get()
         {
             var owners = await _consumer.GetAllOwners();
@@ -33,14 +33,14 @@ namespace GraphQLClient.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]OwnerInput owner)
+        public async Task<IActionResult> Post([FromBody] OwnerInput owner)
         {
             var createdOwner = await _consumer.CreateOwner(owner);
             return Ok(createdOwner);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, [FromBody]OwnerInput owner)
+        public async Task<IActionResult> Put(Guid id, [FromBody] OwnerInput owner)
         {
             var updatedOwner = await _consumer.UpdateOwner(id, owner);
             return Ok(updatedOwner);

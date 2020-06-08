@@ -15,20 +15,24 @@ namespace GraphQLDotNetCore.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.2-servicing-10034")
+                .HasAnnotation("ProductVersion", "3.1.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("GraphQLDotNetCore_Start.Entities.Account", b =>
+            modelBuilder.Entity("GraphQLDotNetCore.Entities.Account", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("OwnerId");
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Type");
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -39,36 +43,39 @@ namespace GraphQLDotNetCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("cb9ffd28-1fb2-4ce9-9f39-497bdf8a5096"),
+                            Id = new Guid("baab1c53-0c94-42c7-898e-9ca324bd8ca3"),
                             Description = "Cash account for our users",
-                            OwnerId = new Guid("514c3bc3-14df-4515-bc13-256e75dd2e9f"),
+                            OwnerId = new Guid("2c22c84d-563b-49a4-b36d-1b40c47735d8"),
                             Type = 0
                         },
                         new
                         {
-                            Id = new Guid("4855d973-eb70-48f1-a619-a2d62ce124d3"),
+                            Id = new Guid("ad5ea9b0-00ed-442d-b6cc-cc54020cb93c"),
                             Description = "Savings account for our users",
-                            OwnerId = new Guid("791716be-7eff-4370-814e-3884d27ae682"),
+                            OwnerId = new Guid("482d51db-5e3f-46b9-bd9f-7303bcb4b4b9"),
                             Type = 1
                         },
                         new
                         {
-                            Id = new Guid("c810d02e-5235-45ff-80b4-34bca427479f"),
+                            Id = new Guid("9769d8ae-8177-4ebd-becd-d1ce1e2fbcb6"),
                             Description = "Income account for our users",
-                            OwnerId = new Guid("791716be-7eff-4370-814e-3884d27ae682"),
+                            OwnerId = new Guid("482d51db-5e3f-46b9-bd9f-7303bcb4b4b9"),
                             Type = 3
                         });
                 });
 
-            modelBuilder.Entity("GraphQLDotNetCore_Start.Entities.Owner", b =>
+            modelBuilder.Entity("GraphQLDotNetCore.Entities.Owner", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Address");
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -77,24 +84,25 @@ namespace GraphQLDotNetCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("514c3bc3-14df-4515-bc13-256e75dd2e9f"),
+                            Id = new Guid("2c22c84d-563b-49a4-b36d-1b40c47735d8"),
                             Address = "John Doe's address",
                             Name = "John Doe"
                         },
                         new
                         {
-                            Id = new Guid("791716be-7eff-4370-814e-3884d27ae682"),
+                            Id = new Guid("482d51db-5e3f-46b9-bd9f-7303bcb4b4b9"),
                             Address = "Jane Doe's address",
                             Name = "Jane Doe"
                         });
                 });
 
-            modelBuilder.Entity("GraphQLDotNetCore_Start.Entities.Account", b =>
+            modelBuilder.Entity("GraphQLDotNetCore.Entities.Account", b =>
                 {
-                    b.HasOne("GraphQLDotNetCore_Start.Entities.Owner", "Owner")
+                    b.HasOne("GraphQLDotNetCore.Entities.Owner", "Owner")
                         .WithMany("Accounts")
                         .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

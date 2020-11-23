@@ -15,11 +15,11 @@ namespace GraphQLDotNetCore.GraphQL.GraphQLTypes
             Field(x => x.Address).Description("Address property from the owner object.");
             Field<ListGraphType<AccountType>>(
                 "accounts",
-                resolve: context =>
-                {
-                    var loader = dataLoader.Context.GetOrAddCollectionBatchLoader<Guid, Account>("GetAccountsByOwnerIds", repository.GetAccountsByOwnerIds);
-                    return loader.LoadAsync(context.Source.Id);
-                });
+                 resolve: context =>
+                 {
+                     var loader = dataLoader.Context.GetOrAddCollectionBatchLoader<Guid, Account>("GetAccountsByOwnerIds", repository.GetAccountsByOwnerIds);
+                     return loader.LoadAsync(context.Source.Id);
+                 });
         }
     }
 }

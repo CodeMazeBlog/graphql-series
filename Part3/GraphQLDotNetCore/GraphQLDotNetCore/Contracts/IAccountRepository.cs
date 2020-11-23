@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace GraphQLDotNetCore.Contracts
 {
-    public interface IAccountRepository
-    {
-        IEnumerable<Account> GetAllAccountsPerOwner(Guid ownerId);
-        Task<ILookup<Guid, Account>> GetAccountsByOwnerIds(IEnumerable<Guid> ownerIds);
-    }
+	public interface IAccountRepository
+	{
+		IEnumerable<Account> GetAllAccountsPerOwner(Guid ownerId);
+		Task<ILookup<Guid, Account>> GetAccountsByOwnerIds(IEnumerable<Guid> ownerIds);
+	}
 }
